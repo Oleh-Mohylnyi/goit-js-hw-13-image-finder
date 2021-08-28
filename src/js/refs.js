@@ -1,5 +1,5 @@
 export const refs = {
-    input: document.querySelector('.input'),
-    listContainer: document.querySelector('.list__container'),
-    cardContainer: document.querySelector('.card__container'),
+    inputForm: document.querySelector('.search-form__input'),
+    listContainer: document.querySelector('.gallery'),
+    buttonLoadMore: document.querySelector('.search-form__btn'),
 };

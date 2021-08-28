@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,16 +8,39 @@
     <title>Homework 12</title>
     <link href="../node_modules/@pnotify/core/dist/PNotify.css" rel="stylesheet" type="text/css" />
     <link href="../node_modules/@pnotify/mobile/dist/PNotifyMobile.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- <link rel=" stylesheet " href=" dist / basicLightbox.min.css "/> -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+   
     <link rel="stylesheet" href="../src/styles.css" />
   </head>
 
   <body>
-    <input class="input" type="text">
-    <div >
-      <ul class="list__container"></ul>
-    </div>
-    <div class="card__container"></div>
 
+    <form class="search-form" id="search-form">
+      <input class="search-form__input" type="text" name="query" autocomplete="off" placeholder="Search images..." />
+      <label><input type="radio" name="image type" value="all">all</label>
+      <label><input type="radio" name="image type" value="photo" checked="true">photo</label>
+      <label><input type="radio" name="image type" value="illustration">illustration</label>
+      <label><input type="radio" name="image type" value="vector">vector</label>
+
+    </form>
+
+    <ul class="gallery">
+
+    </ul>
+
+    <button type="button" class="search-form__btn btn btn-primary" ID="my-element-selector" data-action="load-more">
+      <span  class="btn__spinner spinner-grow spinner-grow-sm is-hidden" role="status" aria-hidden="true"></span> 
+      <span class="btn__label sr-only">Load more</span>
+    </button>
+
+
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+    <!-- <script src=" dist / basicLightbox.min.js "></script> -->
     <script src="../src/js/index.js"></script>
+
   </body>
 </html>
