@@ -1,5 +1,7 @@
 export const refs = {
+    serchForm: document.querySelector('.search-form'),
     inputForm: document.querySelector('.search-form__input'),
-    listContainer: document.querySelector('.gallery'),
+    galleryContainer: document.querySelector('.gallery'),
     buttonLoadMore: document.querySelector('.search-form__btn'),
+    checkboxAutoscroll: document.querySelector('.search-form__autoscroll'),
 };

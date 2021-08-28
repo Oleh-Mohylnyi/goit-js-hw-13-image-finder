@@ -21,12 +21,20 @@ li {
   margin-left: -30px;
 }
 
-input.search-form__input {
-  height: 25px;
-  width: 150px;
-}
 label {
+  display: flex;
   font-size: 14px;
+}
+.search-form_horizontal {
+  display: flex;
+}
+
+.search-form__autoscroll {
+  margin-bottom: 15px;
+}
+
+.search-form__input {
+  margin-top: 15px;
 }
 
 .gallery {

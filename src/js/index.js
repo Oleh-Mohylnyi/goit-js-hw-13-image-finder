@@ -3,9 +3,11 @@
 import ApiService from "./apiService.js"
 import LoadMoreBtn from "./loadMoreBtn.js"
 import { refs } from './refs'
-import listTemplate from './list.hbs'
+import galleryTemplate from './galleryTemplate.hbs'
 import debounce from 'lodash.debounce'
 import { alert, Stack, defaultModules } from '../../node_modules/@pnotify/core/dist/PNotify.js';
+import '../../node_modules/basiclightbox/dist/basicLightbox.min.css'
+import * as basicLightbox from 'basiclightbox';
 
 const { defaults } = require('../../node_modules/@pnotify/core');
 const myStack = new Stack({
@@ -24,32 +26,31 @@ function myAlert(textAlert) {
 
 
 
-import '../../node_modules/basiclightbox/dist/basicLightbox.min.css'
-import * as basicLightbox from 'basiclightbox';
-let currentLargeImageURL = '';
-const instance = basicLightbox.create(
-   `<div class="modal">
-        <img src="${currentLargeImageURL}" alt="" />
-    </div>`
+
+let instance = basicLightbox.create(
+   ``
 );
-
-refs.listContainer.addEventListener('click', onModal);
-
 function onModal(e) {
-    if (e.target.src === undefined) {
-        return
-        }
+    if (e.target.src !== undefined) {
         // e.stopPropagation();
-        currentLargeImageURL = e.target.dataset.largeimageurl;
-
+        createModalMarkup (e.target.dataset.largeimageurl);
         instance.show();
+        }
+};
+function createModalMarkup(url) {
+    instance = basicLightbox.create(
+        `<div class="modal">
+          <img src="${url}https://pixabay.com/get/g3c8f025fcc4585ab317192c7b0aeff70663bdc515bb5216a696f0c6dce3f8e01adcd047e17c3d0dc1ef63f3b6f34f1a54edbd3c4200aae4f1d16cbe384bb618d_1280.jpg" alt="" max-width="50%"/>
+        </div>`
+    );
+}
+function onKeyboard(event) {
+    if (event.key === "Escape") {
+        instance.close();
+    } 
 };
 
-// const element = document.getElementById('my-element-selector');
-// element.scrollIntoView({
-//   behavior: 'smooth',
-//   block: 'end',
-// });
+
 
 const apiService = new ApiService();
 const loadMoreBtn = new LoadMoreBtn({
@@ -57,12 +58,17 @@ const loadMoreBtn = new LoadMoreBtn({
     hidden: true,
 });
 
+
+
+refs.galleryContainer.addEventListener('click', onModal);
+window.addEventListener('keydown', onKeyboard);
 refs.inputForm.addEventListener('keydown', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onSearchMore);
-
-function clearMarkup() {
-    refs.listContainer.innerHTML = ''
-};
+refs.checkboxAutoscroll.addEventListener('change', () => {
+   if (refs.checkboxAutoscroll.checked) {
+        onAutoScroll(refs.buttonLoadMore);
+    } 
+});
 
 
 function onSearch(e) {
@@ -70,9 +76,7 @@ function onSearch(e) {
         e.preventDefault();
         loadMoreBtn.show();
         loadMoreBtn.disable();
-        // const searchQuery = e.currentTargget.elements.query.value;
-        apiService.searchQuery = refs.inputForm.value;
-        apiService.resetPageNumber();
+        getSettings()
         apiService.fetchData()
         .then(data => {
             clearMarkup();
@@ -80,35 +84,77 @@ function onSearch(e) {
                 myAlert('Nothing was found');
                 loadMoreBtn.hide();
             } else {
-                if (data.length < 12) {
-                renderListMarkup(data);
-                myAlert('it is all');
-                loadMoreBtn.hide();
-                } else {
-                    renderListMarkup(data);
-                    myAlert('');
-                    loadMoreBtn.enable();
-                    }
-                }
-            
-            });
+                createGallery(data)
+            }            
+        });
     }
+};
+
+function createGallery(data) {
+    if (data.length < 12) {
+        renderGalleryMarkup(data);
+        myAlert('it is all');
+        loadMoreBtn.hide();
+    } else {
+        renderGalleryMarkup(data);
+        myAlert('');
+        loadMoreBtn.enable();
+    }
+};
+
+function clearMarkup() {
+    refs.galleryContainer.innerHTML = ''
 };
 
 function onSearchMore() {
     loadMoreBtn.disable();
     apiService.fetchData()
         .then(data => {
-            renderListMarkup(data)
-            loadMoreBtn.enable();
-            refs.buttonLoadMore.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end',
-            });
+            createGallery(data)
+            // onScrollInto(refs.buttonLoadMore);
         });
 };
 
-function renderListMarkup(data) {
-    const listMarkup = data.map(listTemplate).join('');
-    refs.listContainer.insertAdjacentHTML('beforeend', listMarkup);
+function renderGalleryMarkup(data) {
+    const galleryMarkup = data.map(galleryTemplate).join('');
+    refs.galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup);
+};
+
+function onAutoScroll(target) {
+    const optionsObserver = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    }
+    const observer = new IntersectionObserver(scrollGallery, optionsObserver);
+    observer.observe(target);
+};
+
+function scrollGallery() {
+    if (refs.checkboxAutoscroll.checked) {
+        onSearchMore()
+    }
+}
+
+// function onScrollInto(element) {
+//     element.scrollIntoView({
+//                 behavior: 'smooth',
+//                 block: 'end',
+//             });
+// };
+
+function getSettings() {
+    apiService.searchQuery = refs.inputForm.value;
+    apiService.resetPageNumber();
+
+    const imageTypeSettings = new FormData(refs.serchForm);
+    for (const entry of imageTypeSettings) {
+        if (entry[0] === "image_type") {
+            apiService.imageType = entry[1];
+        } else {
+            if (entry[0] === "orientation_type") {
+                apiService.orientationType = entry[1];
+            }
+        }
+    };
 };

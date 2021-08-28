@@ -6,13 +6,13 @@ export default class ApiService {
     constructor() {
         this.searchQuery = '';
         this.pageNumber = 1;
+        this.imageType = 'photo';
+        let orientationType = 'horizontal';
     }
 
     fetchData() {
-        let imageType = 'photo';
-        let orientationType = 'horizontal';
             
-            return fetch(`${baseUrl}?image_type=${imageType}&orientation=${orientationType}&q=${this.searchQuery}&page=${this.pageNumber}&per_page=12&key=${keyApi}`)
+            return fetch(`${baseUrl}?image_type=${this.imageType}&orientation=${this.orientationType}&q=${this.searchQuery}&page=${this.pageNumber}&per_page=12&key=${keyApi}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data.hits)

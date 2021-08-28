@@ -5,41 +5,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homework 12</title>
+    <title>Homework 13</title>
     <link href="../node_modules/@pnotify/core/dist/PNotify.css" rel="stylesheet" type="text/css" />
     <link href="../node_modules/@pnotify/mobile/dist/PNotifyMobile.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!-- <link rel=" stylesheet " href=" dist / basicLightbox.min.css "/> -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
    
     <link rel="stylesheet" href="../src/styles.css" />
   </head>
 
   <body>
 
+    
     <form class="search-form" id="search-form">
-      <input class="search-form__input" type="text" name="query" autocomplete="off" placeholder="Search images..." />
-      <label><input type="radio" name="image type" value="all">all</label>
-      <label><input type="radio" name="image type" value="photo" checked="true">photo</label>
-      <label><input type="radio" name="image type" value="illustration">illustration</label>
-      <label><input type="radio" name="image type" value="vector">vector</label>
+      <div class="search-form_horizontal">
+        <label><input class="search-form__autoscroll" type="checkbox" value="autoscroll-on"> auto scroll</label>
+        <div>
+          <label><input type="radio" name="image_type" value="all">all</label>
+          <label><input type="radio" name="image_type" value="photo" checked="true">photo</label>
+          <label><input type="radio" name="image_type" value="illustration">illustration</label>
+          <label><input type="radio" name="image_type" value="vector">vector</label>
+        </div>
+        <div>
+          <label><input type="radio" name="orientation_type" value="all">all</label>
+          <label><input type="radio" name="orientation_type" value="horizontal" checked="true">horizontal</label>
+          <label><input type="radio" name="orientation_type" value="vertical">vertical</label>
+        </div>
+      </div>
 
+      <input class="search-form__input" type="text" name="query" autocomplete="off" placeholder="Search images..." />
     </form>
 
     <ul class="gallery">
 
     </ul>
 
-    <button type="button" class="search-form__btn btn btn-primary" ID="my-element-selector" data-action="load-more">
+    <button type="button" class="search-form__btn btn btn-primary" id="my-element-selector" data-action="load-more">
       <span  class="btn__spinner spinner-grow spinner-grow-sm is-hidden" role="status" aria-hidden="true"></span> 
       <span class="btn__label sr-only">Load more</span>
     </button>
 
 
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
-    <!-- <script src=" dist / basicLightbox.min.js "></script> -->
     <script src="../src/js/index.js"></script>
 
   </body>
